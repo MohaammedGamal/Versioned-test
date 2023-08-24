@@ -1,0 +1,10 @@
+- All code runs normally in a single thread called main tread
+- UI executes on the main thread as it's a little bit heavy and need the main power of the hardware
+- Coroutines is similar to threads
+- Coroutines runs inside a thread and suspendable and can switch the context
+- Coroutine should run inside of a scope like GlobalScope
+- GlogalScope means that this coroutine will live as long the application does
+- If coroutine finishes it's job it will be destroyed automatically
+- Delay is a function to pause the work of the coroutine but not blocking the while thread, yet the sleep in threads will stop the whole thread
+- If the main thread ends someway like we ended the application or something so the coroutines will be destroyed as the main thread of the app got destroyed
+- Suspend functions can only be executed inside another suspend function or inside of a coroutine weather these functions are predefined like delay() or just customer created like i have created a suspend function for my use
