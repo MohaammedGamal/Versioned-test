@@ -2,15 +2,11 @@ package com.example.versionedtest
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.withContext
-import org.w3c.dom.Text
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,40 +16,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Creating a coroutines with specific thread
-        GlobalScope.launch(Dispatchers.Main) {
+        Log.d(TAG, "I am the start of the app ...")
 
-//            Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
-
-        }
-
-        // Creating a coroutines with specific thread
-        GlobalScope.launch(Dispatchers.IO) {
-
-//            Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
-
-        }
-
-        // Creating a coroutine with custom name
-        GlobalScope.launch(newSingleThreadContext("myThread")) {
-
-            Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
-            val response = doNetworkCall()
-
-            // Changing from the working thread to the mentioned below using withContext
-            withContext(Dispatchers.Main) {
-                Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
-                val word = findViewById<TextView>(R.id.text)
-                word.text = response
+        // This run blocking is running on the main thread and it blocks the thread it's running
+        runBlocking {
+            launch(Dispatchers.IO) {
+                delay(5000)
+                Log.d(TAG, "Hi there i am before the delay function inside runBlocking ...")
             }
-
+            delay(10000)
+            Log.d(TAG, "I am from ${Thread.currentThread().name} and run after 5 seconds delay of the main thread")
+            launch {
+                Log.d(TAG, "Hi there i am after the delay function inside runBlocking")
+            }
         }
 
-    }
+//        Log.d(TAG, "I am from thread ${Thread.currentThread().name}")
 
-    suspend fun doNetworkCall(): String {
-        delay(3000)
-        return "I am done with the network call ..."
     }
 
 
