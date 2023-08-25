@@ -2,10 +2,15 @@ package com.example.versionedtest
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.withContext
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,42 +20,41 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // This is where we can launch a coroutine
-        // GlogalScope means that this coroutine will live as long the application does
-        // If coroutine finishes it's job it will be destroyed automatically
-        GlobalScope.launch {
+        // Creating a coroutines with specific thread
+        GlobalScope.launch(Dispatchers.Main) {
 
-            // Pause the coroutine but not blocking the while thread
-//            delay(1000)
-
-            Log.d(TAG, "I am the response of the network call and it is { ${doNetworkCall()} }")
-            Log.d(TAG, "I am the response of the network call and it is { ${doNetworkCall2()} }")
-
-            Log.d(TAG, "I am inside the GlobalScope and thread is ${Thread.currentThread().name}")
+//            Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
 
         }
 
-        Log.d(
-            TAG,
-            "I am inside the onCreate function directly and Thread is ${Thread.currentThread().name}"
-        )
+        // Creating a coroutines with specific thread
+        GlobalScope.launch(Dispatchers.IO) {
+
+//            Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
+
+        }
+
+        // Creating a coroutine with custom name
+        GlobalScope.launch(newSingleThreadContext("myThread")) {
+
+            Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
+            val response = doNetworkCall()
+
+            // Changing from the working thread to the mentioned below using withContext
+            withContext(Dispatchers.Main) {
+                Log.d(TAG, "I am from thread:: ${Thread.currentThread().name}")
+                val word = findViewById<TextView>(R.id.text)
+                word.text = response
+            }
+
+        }
 
     }
 
     suspend fun doNetworkCall(): String {
-
-        delay(3000L)
-
-        return "This is the response 1 ..."
-
+        delay(3000)
+        return "I am done with the network call ..."
     }
 
-    suspend fun doNetworkCall2(): String {
-
-        delay(3000L)
-
-        return "This is the response 2 ..."
-
-    }
 
 }

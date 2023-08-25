@@ -8,3 +8,6 @@
 - Delay is a function to pause the work of the coroutine but not blocking the while thread, yet the sleep in threads will stop the whole thread
 - If the main thread ends someway like we ended the application or something so the coroutines will be destroyed as the main thread of the app got destroyed
 - Suspend functions can only be executed inside another suspend function or inside of a coroutine weather these functions are predefined like delay() or just customer created like i have created a suspend function for my use
+- We can run coroutines in different threads and also can create our own thread
+- Main is mainly used for UI execution and IO is mainly for network / database operations ...
+- Can switch between threads by using withContext() function
