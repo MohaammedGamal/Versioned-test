@@ -11,3 +11,18 @@
 - We can run coroutines in different threads and also can create our own thread
 - Main is mainly used for UI execution and IO is mainly for network / database operations ...
 - Can switch between threads by using withContext() function
+- runBlocking is running a coroutine in the main thread and totally block the thread
+- Again runBlocking is blocking the main thread until we finish working with the other code inside it
+- Can run other coroutines inside runBlocking block
+- Coroutines returns a job that can be saved in a variable then we can execute it or just wait for it by using the function variable.join()
+- variable.cancel() is used to cancel the job with and exception if i wanted to
+- withTimeout() gives us the ability to set a time out or time frame for the coroutine
+- isActive checks if the coroutine is still running or been cancelled or paused
+
+
+
+
+
+
+
+

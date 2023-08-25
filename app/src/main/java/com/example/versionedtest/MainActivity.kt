@@ -1,12 +1,16 @@
 package com.example.versionedtest
 
 import android.os.Bundle
+import android.provider.Settings.Global
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,22 +20,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.d(TAG, "I am the start of the app ...")
+        val job1 = GlobalScope.launch(Dispatchers.Default) {
 
-        // This run blocking is running on the main thread and it blocks the thread it's running
-        runBlocking {
-            launch(Dispatchers.IO) {
-                delay(5000)
-                Log.d(TAG, "Hi there i am before the delay function inside runBlocking ...")
+            // This function gives the coroutine a time out that if it takes after it it will be cancelled
+            withTimeout(2000) {
+                repeat(5) {
+                    // This isActive property checks if the coroutines is still active or it's cancelled or paused
+                    if(isActive) {
+                        Log.d(TAG, "Job 1 is still working ...")
+                        delay(1000)
+                    }
+                }
             }
-            delay(10000)
-            Log.d(TAG, "I am from ${Thread.currentThread().name} and run after 5 seconds delay of the main thread")
-            launch {
-                Log.d(TAG, "Hi there i am after the delay function inside runBlocking")
-            }
+
         }
 
-//        Log.d(TAG, "I am from thread ${Thread.currentThread().name}")
+        runBlocking {
+//            job1.join()
+            delay(2000)
+            job1.cancel()
+            Log.d(TAG, "I am done with runblocking block ...")
+        }
 
     }
 
