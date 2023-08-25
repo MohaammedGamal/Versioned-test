@@ -19,6 +19,12 @@
 - withTimeout() gives us the ability to set a time out or time frame for the coroutine
 - isActive checks if the coroutine is still running or been cancelled or paused
 
+- measureTimeMillis {} is a kotlin function that can be assigned to a variable to measure the time spent for executing that block of code
+- async {} to execute the block asynchronously
+- .await() to show the result once the result is available and not to follow the sequence of the code
+
+
+
 
 
 
