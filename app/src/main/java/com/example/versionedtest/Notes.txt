@@ -23,6 +23,10 @@
 - async {} to execute the block asynchronously
 - .await() to show the result once the result is available and not to follow the sequence of the code
 
+- GlobalScope block lives as long as the application does
+- lifecycleScope block lives as long as the activity / fragments does and if it destroyed the coroutines will be destroyed
+- viewModelScope block lives as long as the view model does
+
 
 
 
