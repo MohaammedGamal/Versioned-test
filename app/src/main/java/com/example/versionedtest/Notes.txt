@@ -1,0 +1,5 @@
+- Kotlin flows follows reactive programming terms
+- It's about getting notified about the recently changed data / code and do something with them
+- emit() used for emmiting or triggering the values
+- .collect() / .collectLatest()
+- flows should run in a coroutine scope
