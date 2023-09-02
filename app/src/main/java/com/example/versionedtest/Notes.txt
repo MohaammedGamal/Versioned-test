@@ -3,3 +3,13 @@
 - emit() used for emmiting or triggering the values
 - .collect() / .collectLatest()
 - flows should run in a coroutine scope
+
+- Flow operators from the name it's operations can be done on each value of the flow
+- Operators can be chained after each other
+- .filter()
+- .map()
+- onEach()
+- Terminal flows -> Takes the end result of the flow and execute it's block
+- .count{ } - Gets all the result of the flow and execute the code
+- .reduce{ } - Used to accumulate the values
+- .fold(initialValue) { } - same as above but it takes initial value
