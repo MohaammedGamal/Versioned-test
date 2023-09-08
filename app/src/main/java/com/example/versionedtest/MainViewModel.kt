@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.count
@@ -16,59 +18,15 @@ import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
-    private val countDownFlow = flow<Int> {
+    // This is the mutable version of the flow
+    private val _stateFlow = MutableStateFlow(0)
+    // This is the immutable version of the flow which will hold the data
+    val stateFlow = _stateFlow.asStateFlow()
 
-        val startingValue = 5
-        var currentValue = startingValue
-        emit(startingValue)
-        while (currentValue > 0) {
+    fun increaseCounter() {
 
-            delay(1000)
-            currentValue--
+        _stateFlow.value += 1
 
-            emit(currentValue)
-
-        }
-
-    }
-
-
-     fun collectFlow() {
-        GlobalScope.launch {
-
-//            val result = countDownFlow
-//                    // Flow operator that apply that boolean block inside it to the values passed by the emmisions then pass it to the collect
-//                    // Here there is a lambda function that takes time as parameter
-//                .filter { time ->
-//                    time % 2 == 0
-//                }
-//                    // Do something with the flow values
-//                .map { time ->
-//                    time * time
-//                }
-//                    // Do something also with each item of the flow and this one returns a flow doesn't end it
-//                .onEach { time ->
-//                    println(time)
-//                }
-////                .collect { time ->
-////
-////                println("Current time is $time")
-////
-////            }
-//                    // This type of flows called terminal flow as it's getting the final result of the flow and execute the code within it
-//                .count {
-//                    it % 2 == 0
-//                }
-
-//            println("Result is $result")
-
-            val anotherTest = countDownFlow.reduce{ accumulator, value ->
-                accumulator + value
-            }
-
-            println("Result is ${anotherTest}")
-
-        }
     }
 
 }
