@@ -1,0 +1,8 @@
+- Each entity is a table in the database
+- Name of the entity is the name of the table and we can specifiy that name by addin attribute in the entity
+- These entities should be data classes
+- @PrimaryKey() gives the property a primary key
+- In setting up the relations we should create another class as a helper class to let room knows how these tables will work together
+- @Embedded is used to embed a the fields of the specified table into the current table or relation - embed a class fields / into another class
+- @Relation() is used to specify the relationship between tables and takes two parameters, first one acts as the primary key, second acts as the foreign key in the other table
+- @Dao refers to the data access object that is the interface is used to interact with room
